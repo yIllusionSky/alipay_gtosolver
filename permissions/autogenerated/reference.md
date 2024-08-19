@@ -8,7 +8,7 @@ Clipboard interaction needs to be explicitly enabled.
 
 
 
-### Permission Table 
+## Permission Table 
 
 <table>
 <tr>
@@ -20,7 +20,7 @@ Clipboard interaction needs to be explicitly enabled.
 <tr>
 <td>
 
-`clipboard-manager:allow-clear`
+`to-alipay-plugin:allow-clear`
 
 </td>
 <td>
@@ -33,7 +33,7 @@ Enables the clear command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-clear`
+`to-alipay-plugin:deny-clear`
 
 </td>
 <td>
@@ -46,7 +46,7 @@ Denies the clear command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:allow-read-image`
+`to-alipay-plugin:allow-read-image`
 
 </td>
 <td>
@@ -59,7 +59,7 @@ Enables the read_image command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-read-image`
+`to-alipay-plugin:deny-read-image`
 
 </td>
 <td>
@@ -72,7 +72,7 @@ Denies the read_image command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:allow-read-text`
+`to-alipay-plugin:allow-read-text`
 
 </td>
 <td>
@@ -85,7 +85,7 @@ Enables the read_text command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-read-text`
+`to-alipay-plugin:deny-read-text`
 
 </td>
 <td>
@@ -98,7 +98,7 @@ Denies the read_text command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:allow-write-html`
+`to-alipay-plugin:allow-write-html`
 
 </td>
 <td>
@@ -111,7 +111,7 @@ Enables the write_html command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-write-html`
+`to-alipay-plugin:deny-write-html`
 
 </td>
 <td>
@@ -124,7 +124,7 @@ Denies the write_html command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:allow-write-image`
+`to-alipay-plugin:allow-write-image`
 
 </td>
 <td>
@@ -137,7 +137,7 @@ Enables the write_image command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-write-image`
+`to-alipay-plugin:deny-write-image`
 
 </td>
 <td>
@@ -150,7 +150,7 @@ Denies the write_image command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:allow-write-text`
+`to-alipay-plugin:allow-write-text`
 
 </td>
 <td>
@@ -163,7 +163,7 @@ Enables the write_text command without any pre-configured scope.
 <tr>
 <td>
 
-`clipboard-manager:deny-write-text`
+`to-alipay-plugin:deny-write-text`
 
 </td>
 <td>
