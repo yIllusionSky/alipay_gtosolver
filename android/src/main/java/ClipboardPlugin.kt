@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
-package app.tauri.clipboard
+package app.tauri.toAlipayPlugin
 
 import android.R.attr.value
 import android.app.Activity
@@ -85,9 +85,7 @@ internal class WriteOptionsDeserializer: JsonDeserializer<WriteOptions>() {
 }
 
 @TauriPlugin
-class ClipboardPlugin(private val activity: Activity) : Plugin(activity) {
-  private val manager: ClipboardManager =
-    activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+class ToAlipayPlugin(private val activity: Activity) : Plugin(activity) {
 
   @Command
   @Suppress("MoveVariableDeclarationIntoWhen")
@@ -106,34 +104,5 @@ class ClipboardPlugin(private val activity: Activity) : Plugin(activity) {
     } 
 
     invoke.resolve()
-  }
-
-  @Command
-  fun readText(invoke: Invoke) {
-    val data = if (manager.hasPrimaryClip()) {
-      if (manager.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true) {
-        val item: ClipData.Item = manager.primaryClip!!.getItemAt(0)
-        val data = ReadClipData.PlainText()
-        data.text = item.text.toString()
-        data
-      } else {
-        // TODO
-        invoke.reject("Clipboard content reader not implemented")
-        return
-      }
-    } else {
-      invoke.reject("Clipboard is empty")
-        return
-    }
-
-    invoke.resolveObject(data)
-  }
-
-  @Command
-  fun clear(invoke: Invoke) {
-      if (manager.hasPrimaryClip()) {
-          manager.clearPrimaryClip()
-      }
-      invoke.resolve()
   }
 }

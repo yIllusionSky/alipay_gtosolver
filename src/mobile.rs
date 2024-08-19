@@ -13,7 +13,7 @@ use tauri::{
 use std::borrow::Cow;
 
 #[cfg(target_os = "android")]
-const PLUGIN_IDENTIFIER: &str = "app.tauri.clipboard";
+const PLUGIN_IDENTIFIER: &str = "app.tauri.toAlipayPlugin";
 
 #[cfg(target_os = "ios")]
 tauri::ios_plugin_binding!(init_plugin_clipboard);
@@ -22,88 +22,25 @@ tauri::ios_plugin_binding!(init_plugin_clipboard);
 pub fn init<R: Runtime, C: DeserializeOwned>(
     _app: &AppHandle<R>,
     api: PluginApi<R, C>,
-) -> crate::Result<Clipboard<R>> {
-    #[cfg(target_os = "android")]
-    let handle = api.register_android_plugin(PLUGIN_IDENTIFIER, "ClipboardPlugin")?;
-    #[cfg(target_os = "ios")]
-    let handle = api.register_ios_plugin(init_plugin_clipboard)?;
-    Ok(Clipboard(handle))
+) -> crate::Result<ToAlipayPlugin<R>> {
+    let handle = api.register_android_plugin(PLUGIN_IDENTIFIER, "ToAlipayPlugin")?;
+    Ok(ToAlipayPlugin(handle))
 }
 
 /// Access to the clipboard APIs.
-pub struct Clipboard<R: Runtime>(PluginHandle<R>);
+pub struct ToAlipayPlugin<R: Runtime>(PluginHandle<R>);
 
-impl<R: Runtime> Clipboard<R> {
+impl<R: Runtime> ToAlipayPlugin<R> {
     pub fn write_text<'a, T: Into<Cow<'a, str>>>(&self, text: T) -> crate::Result<()> {
         let text = text.into().to_string();
         self.0
-            .run_mobile_plugin("writeText", ClipKind::PlainText { text, label: None })
+            .run_mobile_plugin("writeText", TextKind::PlainText { text, label: None })
             .map_err(Into::into)
-    }
-
-    pub fn write_text_with_label<'a, T: Into<Cow<'a, str>>>(
-        &self,
-        text: T,
-        label: T,
-    ) -> crate::Result<()> {
-        let text = text.into().to_string();
-        let label = label.into().to_string();
-        self.0
-            .run_mobile_plugin(
-                "writeText",
-                ClipKind::PlainText {
-                    text,
-                    label: Some(label),
-                },
-            )
-            .map_err(Into::into)
-    }
-
-    pub fn write_image(&self, _image: &Image<'_>) -> crate::Result<()> {
-        Err(crate::Error::Clipboard(
-            "Unsupported on this platform".to_string(),
-        ))
-    }
-
-    pub fn read_text(&self) -> crate::Result<String> {
-        self.0
-            .run_mobile_plugin("readText", ())
-            .map(|c| match c {
-                ClipboardContents::PlainText { text } => text,
-            })
-            .map_err(Into::into)
-    }
-
-    pub fn read_image(&self) -> crate::Result<Image<'_>> {
-        Err(crate::Error::Clipboard(
-            "Unsupported on this platform".to_string(),
-        ))
-    }
-
-    // Treat HTML as unsupported on mobile until tested
-    pub fn write_html<'a, T: Into<Cow<'a, str>>>(
-        &self,
-        _html: T,
-        _alt_text: Option<T>,
-    ) -> crate::Result<()> {
-        Err(crate::Error::Clipboard(
-            "Unsupported on this platform".to_string(),
-        ))
-    }
-
-    pub fn clear(&self) -> crate::Result<()> {
-        self.0.run_mobile_plugin("clear", ()).map_err(Into::into)
     }
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-enum ClipKind {
+enum TextKind {
     PlainText { label: Option<String>, text: String },
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-enum ClipboardContents {
-    PlainText { text: String },
 }

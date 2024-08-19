@@ -16,48 +16,30 @@ use tauri::{
     Manager, Runtime,
 };
 
-#[cfg(desktop)]
-mod desktop;
-#[cfg(mobile)]
 mod mobile;
-
-mod commands;
 mod error;
 
 pub use error::{Error, Result};
 
-#[cfg(desktop)]
-pub use desktop::Clipboard;
-#[cfg(mobile)]
-pub use mobile::Clipboard;
+
+pub use mobile::ToAlipayPlugin;
 
 /// Extensions to [`tauri::App`], [`tauri::AppHandle`], [`tauri::WebviewWindow`], [`tauri::Webview`] and [`tauri::Window`] to access the clipboard APIs.
 pub trait ClipboardExt<R: Runtime> {
-    fn clipboard(&self) -> &Clipboard<R>;
+    fn clipboard(&self) -> &ToAlipayPlugin<R>;
 }
 
 impl<R: Runtime, T: Manager<R>> crate::ClipboardExt<R> for T {
-    fn clipboard(&self) -> &Clipboard<R> {
-        self.state::<Clipboard<R>>().inner()
+    fn clipboard(&self) -> &ToAlipayPlugin<R> {
+        self.state::<ToAlipayPlugin<R>>().inner()
     }
 }
 
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
-    Builder::new("clipboard-manager")
-        .invoke_handler(tauri::generate_handler![
-            commands::write_text,
-            commands::read_text,
-            commands::read_image,
-            commands::write_image,
-            commands::write_html,
-            commands::clear
-        ])
+    Builder::new("ToAlipayPlugin")
         .setup(|app, api| {
-            #[cfg(mobile)]
             let clipboard = mobile::init(app, api)?;
-            #[cfg(desktop)]
-            let clipboard = desktop::init(app, api)?;
             app.manage(clipboard);
             Ok(())
         })

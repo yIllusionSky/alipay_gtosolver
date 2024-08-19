@@ -15,9 +15,6 @@ pub enum Error {
     Clipboard(String),
     #[error(transparent)]
     Tauri(#[from] tauri::Error),
-    #[cfg(desktop)]
-    #[error("invalid image: {0}")]
-    Image(#[from] image::ImageError),
 }
 
 impl Serialize for Error {
@@ -26,12 +23,5 @@ impl Serialize for Error {
         S: Serializer,
     {
         serializer.serialize_str(self.to_string().as_ref())
-    }
-}
-
-#[cfg(desktop)]
-impl From<arboard::Error> for Error {
-    fn from(error: arboard::Error) -> Self {
-        Self::Clipboard(error.to_string())
     }
 }
