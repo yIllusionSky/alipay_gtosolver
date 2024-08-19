@@ -3,7 +3,7 @@ name = "to-alipay-plugin"
 version = "2.0.0-rc.1"
 description = "Read and write to the system clipboard."
 edition = "2021"
-
+package.links="to-alipay-plugin"
 
 [build-dependencies]
 tauri-plugin = { version ="2.0.0-rc.2", features = [ "build" ] }
