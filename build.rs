@@ -4,11 +4,7 @@
 
 const COMMANDS: &[&str] = &[
     "write_text",
-    "read_text",
-    "write_image",
-    "read_image",
-    "write_html",
-    "clear",
+
 ];
 
 fn main() {
