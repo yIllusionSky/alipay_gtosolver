@@ -15,8 +15,6 @@ use std::borrow::Cow;
 #[cfg(target_os = "android")]
 const PLUGIN_IDENTIFIER: &str = "app.tauri.toAlipayPlugin";
 
-#[cfg(target_os = "ios")]
-tauri::ios_plugin_binding!(init_plugin_clipboard);
 
 // initializes the Kotlin or Swift plugin classes
 pub fn init<R: Runtime, C: DeserializeOwned>(
